@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <link rel="stylesheet" href="../static/css/bulma.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/w3.css">
+    {% include 'daisycdn.html' %}
+    <style>
+        body,html{
+            padding: 0px;
+            margin: 0px;
+            width: 100vw;
+            height: 100vh;
+        }
+        .carte{
+            width: 200px;
+            height: 200px;
+        }
+        #form{
+            width: 90vw;
+            /* margin:1vw; */
+        }
+    </style>
+</head>
+<body class="w3-container is-family-code" >
+    <div class="  is-family-code" id="form">
+        <form action="" method = "POST" class="soft-shadow w3-padding w3-margin" enctype = "multipart/form-data">
+            <h3 class="is-bold"> <b>Création de compte</b></h3>
+
+            <div class="file field has-name is-fullwidth">
+            <label class="file-label">
+              <input class="file-input" type="file" name="profile" id="id_picture" accept="image/png, image/jpeg" onchange="select_img_data(this)">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Charger une image
+                </span>
+              </span>
+              <span class="file-name" name="picture_title" id="id_picture_title" style="width:40px;height:40px">
+              </span>
+            </label>
+            </div>
+
+            <!-- <h4 class="is-bold">Nom et Prénom(s):</h4> -->
+            <!-- <input type = "email" name = "email" class="input" placeholder="yayadiabagate19@gmail.com"> -->
+            <h4 class="is-bold">Nom et Prénom(s):</h4>
+            <input type = "text" name = "nomprenom" class="input" placeholder="Diabagaté Yaya" required>
+            <h4 class="is-bold">Contact</h4>
+            <input type = "number" name = "contact" class="input" placeholder="0504573674" required>
+            <h4 class="is-bold">Mot de passe</h4>
+            <input type="password" class="input" name="password" placeholder="********" required>
+
+            <div class="field ">
+            <label class="label">Fonction</label>
+            <div class="control">
+            <div class="select is-fullwidth"  >
+            <select id="id_fonction" name="fonction" required>
+                <option class="white carte" value="maraîcher">Maraîcher</option>
+                <option class="white carte" value="eleveur">Eleveur</option>
+                <option class="white carte" value="vendeurpro">Vendeur des PRO</option>
+                <option class="white carte" value="transporteur">Transporteur</option>
+            </select>
+            </div>
+            </div>
+            </div>
+            <div class="field">
+            <label class="label">Autorisation</label>
+            <div class="control">
+            <div class="select is-fullwidth is-rounded"  >
+            <select id="id_autorisation" name="autorisation" required>
+                <option class="" style="height: 20px; color:red" value="Admin">Administrateur</option>
+                <option class="white carte dropdown-item" value="User">Utilisateur</option>
+            </select>
+            </div>
+            </div>
+            </div>
+            <button class="btn primary w3-margin-top w3-margin-bottom"><input type = "submit" value = "Cliquez pour terminer"/></button>
+        </form>
+    </div>
+    <script>
+        function select_img_data(input) {
+        let file = input.files[0]; 
+        let fileReader = new FileReader(); 
+        fileReader.readAsDataURL(file); 
+        fileReader.onload = function() {
+        contents=fileReader.result;
+          var image_zone=document.getElementById("id_picture_title");
+          show_img(image_zone,contents);
+          console.log(contents)
+          console.log("image affichée")
+        }; 
+        fileReader.onerror = function() {
+          console.log(fileReader.error);
+        }; 
+        }
+
+        function show_img(img_place, dataURL){
+              img_place.innerHTML = "";
+              var img = new Image();
+              img.src = dataURL;
+              img_place.appendChild(img);
+              console.log('Image affichée')
+        }
+    </script>   
+</body>
+</html>

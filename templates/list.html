@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>carte</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Mr-KAM/x.css@main/x.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
+
+	<script src="https://www.w3schools.com/lib/w3.js"></script>
+	<style>
+		@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Varela+Round&display=swap");
+
+		body {
+  		font-family: "Tajawal", Arial;
+		}
+
+		body,html{
+			width: 100vw;
+			height: 100vh;
+			padding: 0%;
+			margin: 0%;
+			overflow: hidden;
+		}
+		#list{
+			width: 100%;
+			height: 78vh;
+			margin-bottom: 80px;
+			z-index: 1;
+			overflow-y: scroll;
+		}
+		
+		#bar{
+			z-index: 1001;
+		}
+		.popup-table {
+  	width: 100%;
+	}
+
+	.popup-table-row {
+  background-color: grey;
+		}
+		.button{
+			border: none;
+		}
+	</style>
+</head>
+<body>
+
+
+
+<div class="bottom white carte center rond-xxlarge" style="width:100vw; height:75px ;margin-bottom:-20px; padding-top:5px" id="bar">
+  <a href="{{ url_for('map')}}" class="bar-item button xlarge"><i class="fi fi-rr-marker"></i></a>
+  <a href="{{ url_for('list')}}" class="bar-item button xlarge txt-green"><i class="fi fi-ss-search"></i></a>
+  <a href="{{ url_for('task')}}" class="w3-bar-item button xlarge"><i class="fi fi-rr-list-check"></i></a>
+  <a href="{{ url_for('profile')}}" class="bar-item button xlarge"><i class="fi fi-rr-user"></i></a>
+</div>
+
+<div class="display-container" style="margin-bottom:40px">
+	<div class="padding w3-card">
+		<input name="search" id="search" type="search" placeholder="Chercher..." class="rond-xxlarge margin white padding border" style="width:85%; height: 40px;outline: none; border:none;" oninput="w3.filterHTML('#listAlerts', 'li', this.value)">
+	</div>
+	<div class="padding" id="list">
+		<ul class="padding-bottom margin-bottom" id="listAlerts">
+			{% for alert in listAlerts %}
+			<li class="carte rond-xlarge container margin-bottom padding">
+				
+				<img src="{{alert['picture']}}" alt="" class="carte cercle" style="width:75px; height:75px;padding:5px">
+				<b><h1 class="title	 is-6">{{alert['titre']}}</h1></b>
+				<h6 class="subtitle small">{{alert['message']}}</h6>
+				<a href="tel:{{alert['contact']}}" class="button is-primary txt-white small">Contacter</a>
+				<!-- <button class="button is-primary txt-white small"></button> -->
+			</li> 
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+
+<script type = "text/javascript" 
+         src = "{{ url_for('static', filename = 'list.js') }}" ></script>
+</body>
+</html>

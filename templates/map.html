@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>carte</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Mr-KAM/x.css@main/x.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+	<link rel='stylesheet' href='https://cdn-uicons.flaticon.com/uicons-solid-straight/css/uicons-solid-straight.css'>
+	<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+	<script src="https://www.w3schools.com/lib/w3.js"></script>
+	<style>
+		body,html{
+			width: 100vw;
+			height: 100vh;
+			padding: 0%;
+			margin: 0%;
+			overflow: hidden;
+		}
+		#mapid{
+			width: 100%;
+			height: 100vh;
+			margin: 0px;
+			z-index: 1;
+		}
+		#form{
+			z-index: 1000;
+			position: absolute;
+			width: 80vw;
+			height: 60vh;
+			margin-bottom: 5vh;
+			margin-top: 5vh;
+			margin-right: 10vw;
+			margin-left: 10vw;
+			padding-right: 5%;
+			padding-left: 5%;
+			padding-top: 5%;
+			padding-bottom: 5%;
+			display: none;
+			overflow: scroll;
+		}
+		#bar{
+			z-index: 1001;
+		}
+		.popup-table {
+  	width: 100%;
+	}
+
+	.popup-table-row {
+  background-color: grey;
+		}
+		.button{
+			border: none;
+		}
+
+		.user-button{
+			position: fixed;
+			top: 0;
+			left:82%;
+			z-index: 1001;
+			border: none;
+		}
+	</style>
+</head>
+<body>
+
+<form  id="alerte_form"  action="{{ url_for('map')}}"  method="POST" enctype = "multipart/form-data" name="alertForm">
+
+<div id="form" class="white carte rond-xlarge">
+	<div class="field">
+  <label class="label small" id="id_autor">{{ current_user.nomprenom }}</label>
+  <label class="label" for="id_alerte_titre" >Titre</label>
+  <div class="control">
+    <input class="input" type="text" placeholder="Titre de l'alerte" name="alerte_titre" id='id_alerte_titre'>
+  </div>
+</div>
+<div class="field ">
+  <label class="label">Type d'alerte</label>
+  <div class="control">
+    <div class="select is-fullwidth"  >
+      <select id="id_type_alerte" name="type_alerte">
+        <option class="white carte" value="espaceVert">Nématodes</option>
+        <option class="white carte" value="feux">Champignons</option>
+        <option class="white carte" value="electricite">Bactéries</option>
+        <option class="white carte" value="plomberie">Fertilité</option>
+        <option class="white carte" value="animaux">Insectes</option>
+        <option class="white carte" value="urgenceSante">Urgence </option>
+        <option class="white carte" value="objetPerdu">Objet perdu</option>
+        <option class="white carte" value="objetRetrouve">Objet retrouvé</option>
+        <option class="white carte" value="vandalisme">Vandalisme</option>
+        <!-- <option>Badge perdu</option> -->
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="file field has-name is-fullwidth">
+	<label class="file-label">
+	  <input class="file-input" type="file" name="picture" id="id_picture" accept="image/png, image/jpeg" onchange="select_img_data(this)">
+	  <span class="file-cta">
+		<span class="file-icon">
+		  <i class="fas fa-upload"></i>
+		</span>
+		<span class="file-label">
+		  Charger une image
+		</span>
+	  </span>
+	  <span class="file-name" name="picture_title" id="id_picture_title" style="width:40px;height:40px">
+	  </span>
+	</label>
+  </div>
+
+<div class="field">
+  <label class="label" for="" >Localisation</label>
+  <div class="control">
+  	<span><input readonly class="input" type="text" placeholder="" name="xcoord" id='id_x'>
+  	</span>
+    <span><input readonly class="input" type="text" placeholder="" name="ycoord" id='id_y'>
+    </span>
+  </div>
+</div>
+<div class="field">
+  <label class="label" for="id_description">Description</label>
+  <div class="control">
+    <textarea class="textarea" placeholder="Saisir une description" name="alerte_message" id="id_alerte_message"></textarea>
+  </div>
+</div>
+<div class="field">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox" id="id_contrat" name="contrat" checked=true>
+      Je suis conscient que celà alertera les autorités <a href="#">compétante !</a>
+    </label>
+  </div>
+</div>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link" type="submit" id="id_btn_submit">Soumettre</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light" onclick="annulerForm()">Annuler</button>
+  </div>
+</div>
+</div>
+</form>
+
+<div class=" user-button right dropdown is-right is-active">
+    <button onclick="w3.toggleShow('#dropd')" class="transparent user-button " >
+    	<span><img src="{{current_user.profile}}" alt="" style="width: 40px; height:40px" class="cercle margin card"></span></button>
+    <div id="dropd" class="dropdown-content bar-block border" style="right:0">
+      <a href="{{ url_for('profile')}}" class="bar-item button">Voir profil</a>
+      <a href="{{ url_for('task')}}" class="bar-item button">Infos</a>
+      <a href="{{ url_for('logout')}}" class="bar-item button"> Déconnecter</a>
+    </div>
+  </div>
+
+
+<template id="alert-template">
+	<b><h3 id="pop-autor" style="color:green" class=" padding-left"></h3></b>
+	<div id="pop-image" class="rond-xlarge padding-bottom" style="width: 100px;height: 100px;"></div>
+	<h5 id="pop-titre" class="padding-left padding-bottom"></h5>
+	<h5 id="pop-type" class="padding-left padding-bottom"></h5>
+	<h5 id="pop-message" class="padding-left padding-bottom"></h5>
+</template>
+
+
+
+<div class="bottom white carte center rond-xxlarge" style="width:100vw; height:75px ;margin-bottom:-20px; padding-top:5px" id="bar">
+  <a href="{{ url_for('map')}}" class="bar-item button xlarge txt-green"><i class="fi fi-ss-marker"></i></a>
+  <a href="{{ url_for('list')}}" class="bar-item button xlarge"><i class="fi fi-rr-search"></i></a>
+  <a href="{{ url_for('task')}}" class="w3-bar-item button xlarge"><i class="fi fi-rr-list-check"></i></a>
+  <a href="{{ url_for('profile')}}" class="bar-item button xlarge"><i class="fi fi-rr-user"></i></a>
+</div>
+
+<div id="mapid" style="margin-bottom:60px"></div>
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+<script>
+	var listAlert
+	var emailAuteur='{{ current_user.email }}'
+	var listAlert=JSON.parse('{{ listAlert|tojson}}')
+
+	async function actualiserCarte () {
+		setInterval(function() {  
+    let requet = new XMLHttpRequest();
+    requet.open('GET', "map");
+    requet.send();
+    listAlert=JSON.parse('{{ listAlert|tojson}}')
+    add_alert(listAlert);
+    // return true;  
+}, 5000);
+}
+	function annulerForm() {
+		// body... 
+		vider_form()
+		var form=document.getElementById("form")
+		form.style.display="none"
+		// w3.hide('#form')
+	}
+
+	// var datas=Array.from(listAlert)
+	// console.log(datas.length)
+	// console.log(listAlert)
+	// add_alert(listAlert)
+
+	// listAlert.map((element)=>console.log(element))
+	// console.log(list_alert[0])
+	// $(document).ready(function(){
+	// 	const title = $('#id_alerte_titre')
+	// 	const picture = $('#id_picture')
+	// 	const type = $('#id_type_alerte')
+	// 	const msg = $('#id_alerte_message')
+	// 	const contrat = $('#id_contrat')
+		
+	// 	$(".submit").on('submit', function(){
+	//     alert(title.value)
+	// 	$.ajax({
+	// 	  type : 'POST',
+	// 	  url : "{{url_for('map')}}",
+	// 	  contentType: 'application/json;charset=UTF-8',
+	// 	  data : {'data':}
+	// 	});
+	// 	 });
+	// 	});
+</script>
+</body>
+</html>

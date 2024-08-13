@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>index</title>
+	<link rel="stylesheet" href="../static/css/bulma.css">
+	<link rel="stylesheet" href="../static/css/style.css">
+	<link rel="stylesheet" href="../static/css/w3.css">
+	<style>
+		body,html{
+			padding: 0px;
+			margin: 0px;
+			width: 100vw;
+			height: 100vh;
+		}
+		.carte{
+			width: 200px;
+			height: 200px;
+		}
+		#form{
+			width: 400px;
+		}
+	</style>
+</head>
+<body class="w3-display-container is-family-code" >
+	<div class="w3-display-middle w3-padding is-family-code" id="form">
+		<form action="{{url_for('formulaire')}}" method = "POST" class="soft-shadow w3-padding w3-margin">
+			<h2 class="is-bold"> <b>Page de connection.</b></h2>
+			<h4 class="is-bold">Nom et Prénom(s)</h4>
+			<input type = "texte" name = "nomprenom" class="input" placeholder="Diabagaté Yaya" required>
+			<h4 class="is-bold">Mot de passe</h4>
+			<input type="password" class="input" name="password" placeholder="********" required>
+			<button class="button is-primary w3-margin-top w3-margin-bottom"><input type = "submit" value = "Connexion" class="button is-primary w3-margin-top w3-margin-bottom"/></button>
+		</form>
+		<!-- <h6 class="w3-padding w3-margin-left"><b><a class="is-primary" href = "{{url_for('formulaire') }}">Connexion</a></b></h6> -->
+	</div>
+</body> 
+</html>

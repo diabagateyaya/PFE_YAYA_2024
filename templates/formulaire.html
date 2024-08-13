@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+    <link rel="stylesheet" href="../static/css/bulma.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/w3.css">
+</head>
+<style>
+    body,html{
+        padding: 0px;
+        margin: 0px;
+        width: 100vw;
+        height: 100vh;
+    }
+    .carte{
+        width: 200px;
+        height: 200px;
+    }
+    #form{
+        width: 400px;
+    }
+</style>
+
+
+<body class="W3-container is-family-code">
+    <div class=" is-family-code" id="form">
+        <form action="{{url_for('traitement')}}" method="POST" class="soft-shadow w3-padding w3-margin enctype" enctype="multipart/form-data">
+            <h3 class=" is-bold"><b>Remplissez le formulaire</b></h3>
+            <div class="file"></div>
+            <h4 class="is-bol">nom et Prénom(s)</h4>
+            <input type="text" name="nomprenom" class="input" placeholder="Diabagaté Yaya">
+            <h4 class="is-bol">Contact</h4>
+            <input type="number" name="contact" class="input" placeholder="0504573674">
+
+            <div class="field">
+            <label class="label">Localité</label>
+            <div class="control">
+            <div class=" select is-fullwidth" >
+            <select id="id_localite" name="localite">
+                <option class="white carte" value="yakro">Yamoussoukro</option>
+                <option class="white carte" value="kgo">Korhogo</option>
+                <option class="white carte" value="bke">Bouaké</option>
+            </select>   
+            </div>
+            </div>
+            </div>
+            <div class="field">
+            <label class="label">Genre</label>
+            <input type="radio" name="genre" class="radio" id="choix1" required>
+            <label class="choix1">Homme</label>
+            <input type="radio" name="genre" class="radio" id="choix2" required>
+            <label class="choix2">Femme</label>
+            </div>
+            <div class="label">
+            <label class="label">Niveau scolaire</label>
+            <div class="control">
+            <div class="select is-fullwidth"  >
+            <select id="id_niveau" name="niveauscolaire">
+                <option class="white carte" value= "primaire">Primaire</option>
+                <option class="white carte" value="secondaire">Secondaire</option>
+                <option class="white carte" value="universitaire">Universitaire</option>
+                <option class="white carte" value="autres">Autres</option>
+            </select>
+            </div>
+            </div>
+            </div>
+            
+            <label class="label">Statut</label>
+            <input type="radio" name="statut" id="label">
+            <label class="is-bold">Ancien</label>
+            <input type="radio" name="statut" class="radio" id="label">
+            <label class="is-bold">Nouveau</label>
+
+            <div class="field">
+            <label class="label">Entrez la superficie de votre parcelle</label>
+            <input type="text" name="superficie" id="superficie" placeholder="10 ha ">
+            </div>
+            <div class="label">
+            <label class="label">Problèmes</label>
+            <div class="control">
+            <div class="select is-fullwidth"  >
+            <select id="id_problème" name="probleme">
+                    <option class="white carte" value= "fertility">Fertilité</option>
+                    <option class="white carte" value="attaque">Attaques</option>
+                    <option class="white carte" value="malady">Maladies</option>
+                    <option class="white carte" value="decay">Pourritures de racines</option>
+                    <option class="white carte" value="decay">Pourritures des fruits</option>
+                    <option class="white carte" value="decay">Pourritures des jeunes fleurs</option>
+                    <option class="white carte" value=""></option>
+
+
+
+                </select>
+                </div>
+                </div>
+                </div>
+                <label class=" besoins"></label>
+            <div class="field">
+            <label class="label">Exprimer vos besoins SVP!</label>
+            <textarea name="besoins" id="besoins" rows="8" cols="70" placeholder="je suis heureux de faire la découverte de ce site ..........."></textarea>
+            </div>
+            <h6 class="w7-padding-center w7-margin-rigth"><b><a class="is-primary" href = "{{url_for('traitement') }}">Soumettre le formulaire</a></b></h6>
+
+       </form>
+    </div>
+</body>
+</html>            
