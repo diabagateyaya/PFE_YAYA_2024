@@ -20,7 +20,6 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_adminlte3 import AdminLTE3
 
-
 app = Flask(__name__)
 app.secret_key = 'dddnedd.ds.=e)zezççàezçz)èeèé"^à#@@#@'
 
