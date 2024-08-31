@@ -13,18 +13,18 @@ class UserModel(UserMixin, db.Model):
     __tablename__ = 'users'
  
     id = db.Column(db.Integer, primary_key=True)
-    localite = db.Column(db.String(80), unique=True)
-    contact = db.Column(db.String(15), unique=True)
+    # localite = db.Column(db.String(80), unique=True)
+    # contact = db.Column(db.String(15), unique=True)
     nomprenom = db.Column(db.String(100),unique=True)
     password_hash = db.Column(db.String())
     autorisation = db.Column(db.String(100))
     fonction = db.Column(db.String(100))
     profile= db.Column(db.String(120))
     genre= db.Column(db.String(10), unique=True)
-    niveauscolaite= db.Column(db.String(120))
-    statut= db.Column(db.String(120))
-    besoins= db.Column(db.String(200))
-    superficie=db.Column(db.String(15), unique=True)
+    elevage= db.Column(db.String(120))
+    maraîchage= db.Column(db.String(120))
+    agri_vivriere= db.Column(db.String(200))
+    # superficie=db.Column(db.String(15), unique=True)
 
  
     def set_password(self,password):

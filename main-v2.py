@@ -4,8 +4,9 @@ from datetime import datetime
 from email import message
 # Créer un objet message vide
 email_message = message.Message()
+
 import json
-import os
+import os 
 import re
 import re
 motif = "python"
@@ -19,6 +20,12 @@ from flask_admin import AdminIndexView, expose, Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
 from flask_adminlte3 import AdminLTE3
+
+# Importation des packages faire faire l'interface
+import streamlit as st
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from lazypredict.Supervised import LazyClassifier
 
 app = Flask(__name__)
 app.secret_key = 'dddnedd.ds.=e)zezççàezçz)èeèé"^à#@@#@'
@@ -35,9 +42,9 @@ login.login_view = 'login' # type: ignore
 def extension(fichier):
     return fichier.split(".")[-1]
 
-with app.app_context():
-    db.drop_all()
-    db.create_all()
+# with app.app_context():
+#     db.drop_all()
+#     db.create_all()
 
 @app.route('/accueil')
 def accueil():
@@ -205,30 +212,32 @@ def register():
 @app.route('/formulaire/', methods=['GET', 'POST'])
 def formulaire():
     if request.method == 'POST':
-        print("votre formulaire est:")
-        nomprenom=request.form['nomprenom']
-        genre = request.form['genre']
-        localite = request.form['localite']
-        niveauscolaire = request.form['niveauscolaire']
+        nomprenom = request.form['nomprenom']
+        print(f"Bonjour {nomprenom}")
+        culture=request.form['culture']
+        maraîchage = request.form['maraîchage']
+        elevage = request.form['elevage']
+        agri_vivriere = request.form['agri_vivriere']
         statut = request.form['statut']
-        besoins = request.form['besoins']
-        superficie= request.form['superficie']
+        contact = request.form['contact']
+        genre= request.form['genre']
         return f"Bonjour {nomprenom}"
-    return render_template("formulaire.html")
+    return render_template('formulaire.html')
 
 @app.route('/traitement', methods =['POST','GET'])
 def traitement():
+    with open('mon_modele.pkl', 'rb') as f:
+        model = pickle.load(f)
+    return render_template('traitement.html')
+
+@app.route('/resultat', methods=['POST','GET'])
+def resultat():
     if request.method == 'POST':
-        donnees =request.form
-        nomprenom=donnees.get('nomprenom')
-        contact=donnees.get('contact')
-        localite=donnees.get('localite')
-        genre=donnees.get('genre')
-        niveauscoolaire=donnees.get('niveauscoolaire')
-        statut=donnees.get('statut')
-        besoins=donnees.get('besoins')
-        superficie=donnees.get('superficie')
-    return render_template('/traitement.html')
+        data = request.json
+        # Prétraitement des données si nécessaire
+        prediction = model.predict(data)
+        return {'prediction': prediction.tolist()}
+    return render_template('/resultat.html')
 
 @app.route('/logout')
 def logout():
